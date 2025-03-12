@@ -6,11 +6,11 @@ import (
 )
 
 func main() {
-	// 1
+	// ans 1
 	findmaxpath.RunFindMaxPath()
 
-	// 2
+	// ans 2
 	keyboardtonumber.RunKeyboardToNumber()
 
-	//3
+	// ans 3
 }

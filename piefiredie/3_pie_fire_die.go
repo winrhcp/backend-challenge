@@ -1,4 +1,4 @@
-package keyboardtonumber
+package piefiredie
 
 import "fmt"
 
@@ -11,22 +11,21 @@ func decode(input string) string {
 			output[i+1] = output[i]
 		} else if input[i] == 'R' {
 			output[i+1] = output[i] + 1
-		} else if input[i] == 'L' {
+		}
+	}
+
+	for i := inputLength - 1; i >= 0; i-- {
+		if input[i] == 'L' {
 			if output[i] <= output[i+1] {
-				output[i] = output[i+1] + 1
-				for j := i - 1; j >= 0; j-- {
-					if input[j] == 'L' && output[j] <= output[j+1] {
-						output[j] = output[j+1] + 1
-					}
-					if input[j] == '=' {
-						output[j] = output[j+1]
-					}
-					if input[j] == 'R' {
-						break
-					}
+				if output[i] <= output[i+1] {
+					output[i] = output[i+1] + 1
 				}
 			}
 		}
+	}
+
+	if inputLength > 0 && input[0] == '=' {
+		output[0] = output[1]
 	}
 
 	result := ""
@@ -37,7 +36,7 @@ func decode(input string) string {
 	return result
 }
 
-func RunKeyboardToNumber() {
+func RunPieFireDie() {
 	inputs := []string{"LLRR=", "==RLL", "=LLRR", "RRL=R"}
 
 	for _, input := range inputs {
