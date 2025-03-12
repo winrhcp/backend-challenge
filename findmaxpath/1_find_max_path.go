@@ -1,4 +1,4 @@
-package main
+package findmaxpath
 
 import (
 	"encoding/json"
@@ -25,7 +25,7 @@ func findMaxPath(data [][]int) int {
 	return data[0][0]
 }
 
-func main() {
+func RunFindMaxPath() {
 	var data [][]int
 
 	hard, err := os.ReadFile("files/hard.json")
@@ -40,7 +40,7 @@ func main() {
 		return
 	}
 
-	fmt.Println("data:", data)
+	// fmt.Println("data:", data)
 
 	result := findMaxPath(data)
 	fmt.Println("The most valuable route has a total value of:", result)
