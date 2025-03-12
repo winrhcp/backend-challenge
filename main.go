@@ -3,6 +3,7 @@ package main
 import (
 	"backend-challange/findmaxpath"
 	"backend-challange/keyboardtonumber"
+	"backend-challange/piefiredie"
 )
 
 func main() {
@@ -13,4 +14,5 @@ func main() {
 	keyboardtonumber.RunKeyboardToNumber()
 
 	// ans 3
+	piefiredie.RunPieFireDie()
 }
