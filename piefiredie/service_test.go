@@ -29,7 +29,7 @@ func TestCountMeats_EmptyInput(t *testing.T) {
 	}
 }
 
-func TestFetchBaconIpsum_EmptyResponse(t *testing.T) {
+func TestFetchBacon_EmptyResponse(t *testing.T) {
 	fakeFetch := func() (string, error) {
 		return "", nil
 	}
