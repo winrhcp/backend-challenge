@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"sync"
 )
 
 type MeatCounter map[string]int
@@ -22,13 +23,42 @@ func countMeats(text string) MeatCounter {
 		return r == ' ' || r == ',' || r == '.' || r == '\n'
 	})
 
-	counter := make(MeatCounter)
-	for _, meat := range meats {
-		meat = strings.ToLower(strings.TrimSpace(meat))
-		counter[meat]++
+	numWorkers := 4
+
+	results := make(chan MeatCounter, numWorkers)
+
+	chunkSize := (len(meats) + numWorkers - 1) / numWorkers
+	var wg sync.WaitGroup
+
+	for i := 0; i < numWorkers; i++ {
+		wg.Add(1)
+		start := i * chunkSize
+		end := min(start+chunkSize, len(meats))
+
+		go func(meatsChunk []string) {
+			defer wg.Done()
+			localCounter := make(MeatCounter)
+			for _, meat := range meatsChunk {
+				meat = strings.ToLower(strings.TrimSpace(meat))
+				localCounter[meat]++
+			}
+			results <- localCounter
+		}(meats[start:end])
 	}
 
-	return counter
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
+
+	finalCounter := make(MeatCounter)
+	for localCounter := range results {
+		for meat, count := range localCounter {
+			finalCounter[meat] += count
+		}
+	}
+
+	return finalCounter
 }
 
 func fetchBacon() (string, error) {
