@@ -23,7 +23,7 @@ func countMeats(text string) MeatCounter {
 		return r == ' ' || r == ',' || r == '.' || r == '\n'
 	})
 
-	numWorkers := 4
+	numWorkers := 2
 
 	results := make(chan MeatCounter, numWorkers)
 

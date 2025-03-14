@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -40,5 +41,23 @@ func TestFetchBacon_EmptyResponse(t *testing.T) {
 	}
 	if result != "" {
 		t.Errorf("Expected empty string, got %s", result)
+	}
+}
+
+func BenchmarkSmallInput(b *testing.B) {
+	text := `fatback t-bone t-bone, pastrami .. t-bone. pork, meatloaf jowl enim. Bresaola t-bone.`
+	for i := 0; i < b.N; i++ {
+		countMeats(text)
+	}
+}
+
+func BenchmarkLargeInput(b *testing.B) {
+
+	smallText := `fatback t-bone t-bone, pastrami .. t-bone. pork, meatloaf jowl enim. Bresaola t-bone.`
+	largeText := strings.Repeat(smallText, 10000000)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		countMeats(largeText)
 	}
 }
